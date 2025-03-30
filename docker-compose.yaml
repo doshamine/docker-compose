@@ -1,5 +1,3 @@
-version: "3.9"
-
 services:
   postgres:
     image: postgres:latest
@@ -28,5 +26,8 @@ services:
     image: nginx:latest
     ports:
       - "88:80"
-    depends_on:
-      - backend
+    volumes:  
+      - ./nginx-conf:/etc/nginx
+      - ./stocks_products/static:/static
+    command:
+      ln /etc/nginx/sites-available/gunicorn /etc/nginx/sites-enabled/gunicorn

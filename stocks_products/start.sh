@@ -1,2 +1,2 @@
 python3 ./manage.py migrate;
-python3 ./manage.py runserver 0.0.0.0:8000;
+gunicorn stocks_products.wsgi -b 0.0.0.0:8000 -w 3;
