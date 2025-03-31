@@ -1,3 +1,7 @@
+configs:
+  nginx_site_config:
+    file: ./nginx-conf/sites-available/gunicorn
+
 services:
   postgres:
     image: postgres:latest
@@ -18,16 +22,15 @@ services:
       - db.env
 
   backend:
-    build: ./stocks_products/
+    build: ./stocks_products
+    ports:
+      - "8000:8000"
     depends_on:
       - postgres
 
   nginx:
-    image: nginx:latest
+    build: ./my_nginx
     ports:
       - "88:80"
-    volumes:  
-      - ./nginx-conf:/etc/nginx
-      - ./stocks_products/static:/static
-    command:
-      ln /etc/nginx/sites-available/gunicorn /etc/nginx/sites-enabled/gunicorn
+    depends_on:
+      - backend
